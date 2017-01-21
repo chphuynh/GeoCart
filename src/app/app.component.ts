@@ -1,14 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { StatusBar, Splashscreen, SQLite } from 'ionic-native';
+
+import { CommonDb } from '../providers/common-db';
 
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
+import { TestsqlPage } from '../pages/testsql/testsql';
 
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [CommonDb]
 })
+
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
@@ -16,13 +21,14 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform, public commonDB: CommonDb) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Page One', component: Page1 },
-      { title: 'Page Two', component: Page2 }
+      { title: 'Page Two', component: Page2 },
+      { title: 'testsql', component: TestsqlPage}
     ];
 
   }
@@ -31,8 +37,35 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+
       StatusBar.styleDefault();
       Splashscreen.hide();
+
+      // Initialize SQLite Database
+      let db = new SQLite();
+
+      this.commonDB.initializeDB(db);
+
+      /*
+      db.openDatabase(
+      {
+        name: "data.db",
+        location: "default"
+      }).then(() =>
+      {
+        db.executeSql("CREATE TABLE IF NOT EXISTS lists (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)", {}).then((data) => 
+        {
+          console.log("Table created: ", data);
+        }, (error) =>
+        {
+          console.error("Unable to execute sql", error);
+        })
+      }, (error) =>
+      {
+        console.error("Unable to open database", error);
+      });
+      */
+
     });
   }
 
