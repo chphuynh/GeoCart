@@ -40,11 +40,14 @@ export class TestsqlPage {
 
   public add()
   {
-    var tableData = {
+    var tableData = 
+    {
       name: "DIY Projects"
     };
 
     this.commonDB.insertDB(this.db, 'lists', tableData);
+
+    this.refresh();
 
     /*
   	this.db.executeSql("INSERT INTO lists (name) VALUES	('Groceries')", []).then((data) =>
@@ -61,6 +64,7 @@ export class TestsqlPage {
   {
   	this.db.executeSql("SELECT * FROM lists", []).then((data) =>
   	{
+      //console.log(data.rows);
   		this.lists = [];
   		if(data.rows.length > 0)
   		{
@@ -77,14 +81,8 @@ export class TestsqlPage {
 
   public clear()
   {
-    this.db.executeSql("DELETE FROM lists", []).then((data) =>
-    {
-      console.log("Table deleted: ", data);
-      this.refresh();
-    }, (error) =>
-    {
-      console.log("ERROR: ", JSON.stringify(error));
-    });
+    this.commonDB.clearDB(this.db, 'lists');
+    this.refresh();
   }
 
   ionViewDidLoad() {

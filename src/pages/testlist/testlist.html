@@ -1,0 +1,40 @@
+<!--
+  Generated template for the Testlist page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+  	<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>testlist</ion-title>
+
+    <ion-buttons end>
+    	<button ion-button *ngIf="!addData" (click)="this.addData = true">
+    		Add 
+    	</button>
+
+    	<button ion-button *ngIf="addData" (click)="add()">
+    		Done
+    	</button>
+	</ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+		<ion-item *ngFor="let list of lists">
+			{{list.name}}
+		</ion-item>
+
+		<ion-item *ngIf="addData">
+				<ion-input name='listName' [(ngModel)]="listName" (keypress)="eventHandler($event.keyCode)" placeholder="Enter List Name"clearInput></ion-input>
+		</ion-item>
+	</ion-list>
+</ion-content>

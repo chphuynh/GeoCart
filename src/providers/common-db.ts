@@ -23,7 +23,18 @@ export class CommonDb {
       location: "default"
     }).then(() =>
     {
-      db.executeSql("CREATE TABLE IF NOT EXISTS lists (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)", {}).then((data) => 
+
+      // Creating lists table
+      db.executeSql("CREATE TABLE IF NOT EXISTS lists (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)", {}).then((data) => 
+      {
+        console.log("Table created: ", data);
+      }, (error) =>
+      {
+        console.error("Unable to execute sql", error);
+       })
+
+      // Create list_detais table
+      db.executeSql("CREATE TABLE IF NOT EXISTS list_details (id INTEGER PRIMARY KEY AUTOINCREMENT, list_id INTEGER, item_name TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)", {}).then((data) => 
       {
         console.log("Table created: ", data);
       }, (error) =>
@@ -52,6 +63,17 @@ export class CommonDb {
   	{
   		console.log("ERROR: " + JSON.stringify(error.err));
   	});
+  }
+
+  clearDB(db, tableName)
+  {
+  	db.executeSql("DELETE FROM " + tableName, []).then((data) =>
+    {
+      console.log("Table deleted: ", data);
+    }, (error) =>
+    {
+      console.log("ERROR: ", JSON.stringify(error));
+    });
   }
 
 }

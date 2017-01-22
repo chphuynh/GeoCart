@@ -7,17 +7,17 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
     <ion-title>testsql</ion-title>
-
-    <ion-buttons start>
-    	<button (click)="refresh()">Refresh</button>
-    </ion-buttons>
 
     <ion-buttons end>
     	<button (click)="add()">Add</button>
 	  </ion-buttons>
 
-    <ion-buttons clear>
+    <ion-buttons end>
       <button (click)="clear()">Clear</button>
     </ion-buttons>
 
